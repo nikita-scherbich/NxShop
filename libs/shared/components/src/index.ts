@@ -1,0 +1,1 @@
+export * from './lib/triangle-background/triangle-background.component';

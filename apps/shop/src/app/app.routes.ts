@@ -1,25 +1,18 @@
-import { Route } from '@angular/router';
+import { Routes } from '@angular/router';
 
-export const appRoutes: Route[] = [
+export const appRoutes: Routes = [
   {
     path: '',
-    redirectTo: 'products',
+    redirectTo: 'auth-shell',
     pathMatch: 'full',
   },
   {
-    path: 'products',
-    loadChildren: () =>
-      import('@org/shop/feature-products').then(m => m.featureProductsRoutes),
-  },
-  {
-    path: 'products',
-    loadChildren: () =>
-      import('@org/shop/feature-product-detail').then(
-        m => m.featureProductDetailRoutes
-      ),
+    path: 'auth-shell',
+    loadComponent: () =>
+      import('./auth/auth-shell.component').then((m) => m.AuthShellComponent),
   },
   {
     path: '**',
-    redirectTo: 'products',
+    redirectTo: '',
   },
 ];
