@@ -12,7 +12,6 @@
       "options": {
         "outputPath": "dist/apps/shop",
         "browser": "apps/shop/src/main.ts",
-        "polyfills": ["zone.js"],
         "tsConfig": "apps/shop/tsconfig.app.json",
         "assets": [
           {
@@ -52,7 +51,7 @@
       "defaultConfiguration": "production"
     },
     "serve": {
-      "dependsOn": ["api:serve"],
+      "dependsOn": ["shared/components"],
       "continuous": true,
       "executor": "@angular/build:dev-server",
       "configurations": {

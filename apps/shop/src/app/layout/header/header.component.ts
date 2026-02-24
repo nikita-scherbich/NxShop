@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
-import { AuthService } from '../../auth/auth.service';
+// import { AuthService } from '../../auth/auth.service';
 import { ShellStateService } from '../shell/shell-state.service'; // Adjusted path
 
 @Component({
@@ -13,7 +13,7 @@ import { ShellStateService } from '../shell/shell-state.service'; // Adjusted pa
 })
 export class HeaderComponent {
   private shellStateService = inject(ShellStateService);
-  private authService = inject(AuthService); // Inject AuthService
+  // private authService = inject(AuthService); // Inject AuthService
   private router = inject(Router);
 
   toggleSidebar() {
@@ -21,7 +21,7 @@ export class HeaderComponent {
   }
 
   logout() {
-    this.authService.logout();
+    // this.authService.logout();
     this.router.navigate(['/login']); // Redirect to login page after logout
   }
 }
