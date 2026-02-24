@@ -146,3 +146,10 @@ The CI pipeline incorporates `nx fix-ci` to automatically identify and suggest f
 ├── tsconfig.base.json  - Base TypeScript configuration
 └── eslint.config.mjs   - ESLint configuration with module boundary rules
 ```
+
+## Active Technologies
+- TypeScript 5.x, Node.js 18+ + Angular 21, Angular Material, Express (for mock API), `ngx-cookie-service` (001-user-auth-ui)
+- Cookies (JWT), LocalStorage (Session data) (001-user-auth-ui)
+
+## Recent Changes
+- 001-user-auth-ui: Added TypeScript 5.x, Node.js 18+ + Angular 21, Angular Material, Express (for mock API), `ngx-cookie-service`
