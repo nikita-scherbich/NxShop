@@ -1,0 +1,33 @@
+{
+  "name": "@nxshop/shop",
+  "version": "0.0.0",
+  "license": "MIT",
+  "scripts": {},
+  "private": true,
+  "dependencies": {
+    "@angular-devkit/build-angular": "21.1.1",
+    "@angular/common": "21.1.1",
+    "@angular/compiler": "21.1.1",
+    "@angular/core": "21.1.1",
+    "@angular/forms": "21.1.1",
+    "@angular/platform-browser": "21.1.1",
+    "@angular/platform-server": "21.1.1",
+    "@angular/router": "21.1.1",
+    "@angular/ssr": "21.1.1",
+    "@primeuix/themes": "^2.0.3",
+    "jwt-decode": "^4.0.0",
+    "ngx-cookie-service": "^21.1.0",
+    "primeng": "^21.1.1",
+    "rxjs": "~7.8.0"
+  },
+  "devDependencies": {
+    "@angular-devkit/core": "21.1.1",
+    "@angular-devkit/schematics": "21.1.1",
+    "@angular/build": "21.1.1",
+    "@angular/cli": "^21.1.1",
+    "@angular/compiler-cli": "21.1.1",
+    "@angular/language-service": "21.1.1",
+    "@eslint/js": "^9.8.0",
+    "angular-eslint": "21.1.0"
+  }
+}

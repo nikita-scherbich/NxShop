@@ -1,0 +1,11 @@
+node_modules/
+dist/
+build/
+coverage/
+*.log
+.git/
+.gitignore
+.vscode/
+.idea/
+tmp/
+.nx/

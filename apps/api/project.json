@@ -6,7 +6,7 @@
   "tags": ["scope:api"],
   "release": {
     "docker": {
-      "repositoryName": "org/angular-template-api"
+      "repositoryName": "nxshop/angular-template-api"
     }
   },
   "targets": {

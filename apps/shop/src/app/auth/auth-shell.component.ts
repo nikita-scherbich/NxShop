@@ -1,25 +1,29 @@
 import { CommonModule } from '@angular/common';
 import { Component, signal } from '@angular/core';
-import { TriangleBackgroundComponent } from '@app/shared/components';
-import { LoginComponent } from './components/login/login.component';
+import { RouterOutlet } from '@angular/router';
+import {
+  TriangleBackgroundComponent,
+  TriangleBackgroundConfig,
+} from '@nxshop/shared';
+import { FocusTrapModule } from 'primeng/focustrap';
 
 @Component({
   selector: 'app-auth-shell',
   template: `
-    <main>
-      <app-triangle-background [config]="triangleBackgroundConfig()" />
-      <app-login />
-      <section>
-        <button type="button">Sign In With Google</button>
-        <a>Sign Up</a>
-      </section>
+    <main pFocusTrap>
+      <app-triangle-background
+        class="background"
+        [config]="triangleBackgroundConfig()"
+      />
+      <router-outlet />
     </main>
-    <
   `,
   styles: `
     :host {
       display: flex;
       flex-direction: column;
+      justify-content: center;
+      align-items: center;
       height: 100%;
       width: 100%;
 
@@ -29,14 +33,24 @@ import { LoginComponent } from './components/login/login.component';
         width: 100%;
         align-items: center;
         justify-content: center;
+
+        .background {
+          z-index: -1;
+        }
       }
     }
   `,
-  imports: [CommonModule, LoginComponent, TriangleBackgroundComponent],
+  imports: [
+    CommonModule,
+    RouterOutlet,
+    TriangleBackgroundComponent,
+    FocusTrapModule,
+  ],
   providers: [],
 })
 export class AuthShellComponent {
-  triangleBackgroundConfig = signal({
-    densityCoefficient: 1,
+  triangleBackgroundConfig = signal<Partial<TriangleBackgroundConfig>>({
+    densityCoefficient: 1.2,
+    attractionStrength: 1.5,
   });
 }

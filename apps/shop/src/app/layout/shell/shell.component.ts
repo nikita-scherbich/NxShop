@@ -11,7 +11,7 @@ import { ShellStateService } from './shell-state.service'; // Import ShellStateS
   imports: [CommonModule, RouterOutlet, HeaderComponent, SidebarComponent],
   templateUrl: './shell.component.html',
   styleUrl: './shell.component.scss',
-  host: { '[class.sidebar-open]': 'shellState.isSidebarOpen()' } // Add host binding
+  host: { '[class.sidebar-open]': 'shellState.isSidebarOpen()' }, // Add host binding
 })
 export class ShellComponent {
   public readonly shellState = inject(ShellStateService);
