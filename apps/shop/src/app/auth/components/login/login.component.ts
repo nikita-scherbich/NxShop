@@ -100,6 +100,7 @@ export class LoginComponent {
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe(() => {
         // this.notificationsService.showSuccess('Login successful!');
+        this.router.navigateByUrl('/shell');
       });
   }
 

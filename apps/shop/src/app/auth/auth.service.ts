@@ -9,7 +9,6 @@ import { BASE_API_URL } from '../../environment';
 export class AuthService {
   private http = inject(HttpClient);
   private cookieService = inject(CookieService);
-  // private authStore = inject(AuthStore); // Will be implemented in a later phase
 
   signUp(registrationDetails: SignUpFormData): Observable<void> {
     return this.http.post<void>(
@@ -59,4 +58,10 @@ export class AuthService {
   // googleLogin(idToken: string): Observable<any> {
   //   return this.http.post<any>(`${this.AUTH_API_URL}/google-login`, { idToken });
   // }
+
+  isAuthenticated(): boolean {
+    const token = this.cookieService.get('jwt_token');
+
+    return Boolean(token);
+  }
 }
