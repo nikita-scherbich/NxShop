@@ -1,13 +1,14 @@
 import { User } from '@nxshop/shared';
 import { config } from 'dotenv';
 import express from 'express';
+import * as jwt from 'jsonwebtoken';
 import { DBResponse } from './lib/models/db-response.model';
 import { supabase } from './lib/supabase';
+import { jwtExpiresIn } from './lib/utils/jwt-exiration.utils';
 
 config({ path: 'apps/api/.env', debug: false });
 
 const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
 
 const host = process.env.HOST ?? 'localqhost';
 const port = process.env.PORT ? Number(process.env.PORT) : 3333;
@@ -51,10 +52,12 @@ app.post('/api/token', async (req, res) => {
       return res.sendStatus(403);
     }
 
-    const accessToken = generateAccessToken(user);
+    const expiresIn = jwtExpiresIn();
+    const accessToken = generateAccessToken(user, expiresIn);
     return res.status(200).json({
       accessToken,
       refreshToken,
+      expiresAt: new Date(expiresIn),
       message: 'Token has been successfully refreshed.',
     });
   });
@@ -118,12 +121,14 @@ app.post('/api/login', async (req, res) => {
       return res.status(400).json({ message: 'Wrong credentials' });
     }
 
-    const accessToken = generateAccessToken(user);
+    const expiresIn = jwtExpiresIn();
+    const accessToken = generateAccessToken(user, expiresIn);
     const refreshToken = jwt.sign(user, process.env.REFRESH_TOKEN_SECRET);
 
     return res.status(200).json({
       accessToken,
       refreshToken,
+      expiresAt: new Date(expiresIn),
       message: 'User Successfully Logged In',
     });
   } catch (error) {
@@ -277,6 +282,6 @@ function authenticateToken(req, res, next) {
   });
 }
 
-function generateAccessToken(user) {
-  return jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '15s' });
+function generateAccessToken(user: User, expiresIn: number) {
+  return jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, { expiresIn });
 }

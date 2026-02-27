@@ -27,7 +27,7 @@ export class AuthService {
           // For 'rememberMe', the cookie expiration can be set longer.
           // For mock, we'll set a default expiration.
           const expirationDate = credentials.rememberMe
-            ? new Date(new Date().getTime() + 7 * 24 * 60 * 60 * 1000) // 7 days
+            ? response.expireAt
             : undefined;
 
           this.cookieService.set(
@@ -38,7 +38,7 @@ export class AuthService {
             undefined,
             true,
             'Lax',
-          ); // Secure, HttpOnly (backend sets), Lax for CSRF protection
+          );
 
           // For now, no user object is stored in authStore.
           // this.authStore.setAccessToken(response.token);

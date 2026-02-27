@@ -7,5 +7,6 @@ export interface LoginFormData {
 export interface LoginResponse {
   accessToken: string;
   refreshToken: string;
+  expireAt: Date;
   message: string;
 }
