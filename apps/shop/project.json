@@ -56,9 +56,9 @@
       "defaultConfiguration": "production"
     },
     "serve": {
-      "dependsOn": ["shared/components"],
       "continuous": true,
       "executor": "@angular/build:dev-server",
+      "dependsOn": ["api:serve"],
       "configurations": {
         "production": {
           "buildTarget": "shop:build:production"

@@ -3,3 +3,9 @@ export interface LoginFormData {
   password: string;
   rememberMe: boolean;
 }
+
+export interface LoginResponse {
+  accessToken: string;
+  refreshToken: string;
+  message: string;
+}

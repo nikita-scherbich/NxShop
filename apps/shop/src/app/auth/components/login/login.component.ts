@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, effect, inject, signal } from '@angular/core';
+import { Component, DestroyRef, inject, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import {
   form,
@@ -21,6 +21,7 @@ import { InputIconModule } from 'primeng/inputicon';
 import { InputTextModule } from 'primeng/inputtext';
 import { MessageModule } from 'primeng/message';
 import { ToggleButtonModule } from 'primeng/togglebutton';
+import { AUTH_BASE_PATH } from '../../../app.routes';
 import { AuthService } from '../../auth.service';
 import { GoogleAuthService } from '../../google-auth.service';
 
@@ -48,17 +49,11 @@ export class LoginComponent {
   readonly loginLoading = signal(false);
   readonly hidePassword = signal(true); // Signal for password visibility
 
-  private authService = inject(AuthService); // Inject AuthService
-  // private notificationsService = inject(NotificationsService); // Inject NotificationsService
-  private router = inject(Router);
-  private googleAuthService = inject(GoogleAuthService); // Inject GoogleAuthService
-
-  constructor() {
-    effect(() => {
-      const loginFormData = this.loginFormModel();
-      console.log('Login form data changed:', loginFormData);
-    });
-  }
+  private readonly authService = inject(AuthService); // Inject AuthService
+  // private readonly notificationsService = inject(NotificationsService); // Inject NotificationsService
+  private readonly router = inject(Router);
+  private readonly googleAuthService = inject(GoogleAuthService); // Inject GoogleAuthService
+  private readonly destroyRef = inject(DestroyRef);
 
   private loginFormModel = signal<LoginFormData>({
     email: '',
@@ -102,9 +97,8 @@ export class LoginComponent {
 
     this.authService
       .login(loginForm.value())
-      .pipe(takeUntilDestroyed())
+      .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe(() => {
-        this.router.navigate(['/auth-shell']);
         // this.notificationsService.showSuccess('Login successful!');
       });
   }
@@ -118,6 +112,6 @@ export class LoginComponent {
   }
 
   navigateToSignUp(): void {
-    this.router.navigateByUrl('/auth-shell/sign-up');
+    this.router.navigateByUrl(`/${AUTH_BASE_PATH}/sign-up`);
   }
 }

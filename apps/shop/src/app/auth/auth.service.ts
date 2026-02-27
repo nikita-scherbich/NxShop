@@ -1,14 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { LoginFormData, SignUpFormData } from '@nxshop/shared';
+import { LoginFormData, LoginResponse, SignUpFormData } from '@nxshop/shared';
 import { CookieService } from 'ngx-cookie-service';
 import { catchError, Observable, tap } from 'rxjs';
-
-interface LoginResponse {
-  token: string;
-  email: string;
-  message: string;
-}
+import { BASE_API_URL } from '../../environment';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
@@ -16,18 +11,16 @@ export class AuthService {
   private cookieService = inject(CookieService);
   // private authStore = inject(AuthStore); // Will be implemented in a later phase
 
-  private readonly AUTH_API_URL = '/api/auth';
-
   signUp(registrationDetails: SignUpFormData): Observable<void> {
     return this.http.post<void>(
-      `${this.AUTH_API_URL}/signup`,
+      `${BASE_API_URL}/api/signup`,
       registrationDetails,
     );
   }
 
   login(credentials: LoginFormData): Observable<LoginResponse> {
     return this.http
-      .post<LoginResponse>(`${this.AUTH_API_URL}/login`, credentials)
+      .post<LoginResponse>(`${BASE_API_URL}/api/login`, credentials)
       .pipe(
         tap((response) => {
           // Store JWT token in a secure cookie
@@ -39,14 +32,13 @@ export class AuthService {
 
           this.cookieService.set(
             'jwt_token',
-            response.token,
+            response.accessToken,
             expirationDate,
             '/',
             undefined,
             true,
             'Lax',
           ); // Secure, HttpOnly (backend sets), Lax for CSRF protection
-          console.log('JWT token stored in cookie:', response.token);
 
           // For now, no user object is stored in authStore.
           // this.authStore.setAccessToken(response.token);

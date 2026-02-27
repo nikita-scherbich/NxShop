@@ -36,7 +36,7 @@
   </svg>
 </p-button>
 
-<form class="login-form" (ngSubmit)="login()">
+<form class="login-form">
   <section class="login-form-field">
     <p-floatlabel variant="on" class="login-form-field-container">
       <input
@@ -110,10 +110,10 @@
   </section>
 
   <p-button
-    type="submit"
     label="Login"
     [disabled]="loginForm().invalid()"
     class="login-form-submit-btn"
+    (onClick)="login()"
   />
 </form>
 

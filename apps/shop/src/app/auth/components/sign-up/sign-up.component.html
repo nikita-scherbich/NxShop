@@ -36,7 +36,7 @@
   </svg>
 </p-button>
 
-<form class="signup-form" (ngSubmit)="signUp()">
+<form class="signup-form">
   <p-floatlabel variant="on">
     <input
       pInputText
@@ -144,10 +144,10 @@
   }
 
   <p-button
-    type="submit"
     label="Sign Up"
     [disabled]="signUpForm().invalid()"
     class="signup-form-submit-btn"
+    (onClick)="signUp()"
   />
 </form>
 

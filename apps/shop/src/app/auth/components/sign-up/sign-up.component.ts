@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, signal } from '@angular/core';
+import { Component, DestroyRef, inject, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import {
   form,
@@ -21,6 +21,7 @@ import { IconFieldModule } from 'primeng/iconfield';
 import { InputIconModule } from 'primeng/inputicon';
 import { InputTextModule } from 'primeng/inputtext';
 import { MessageModule } from 'primeng/message';
+import { AUTH_BASE_PATH } from '../../../app.routes';
 import { AuthService } from '../../auth.service';
 import { GoogleAuthService } from '../../google-auth.service';
 
@@ -46,10 +47,11 @@ const primengModules = [
 export class SignUpComponent {
   readonly signUpLoading = signal(false);
 
-  private authService = inject(AuthService);
-  // private notificationsService = inject(NotificationsService);
-  private router = inject(Router);
-  private googleAuthService = inject(GoogleAuthService); // Inject GoogleAuthService
+  private readonly authService = inject(AuthService);
+  // private readonly notificationsService = inject(NotificationsService);
+  private readonly router = inject(Router);
+  private readonly googleAuthService = inject(GoogleAuthService);
+  private readonly destroyRef = inject(DestroyRef);
 
   readonly passwordVisible = signal(false);
   readonly confirmPasswordVisible = signal(false);
@@ -62,7 +64,7 @@ export class SignUpComponent {
     confirmPassword: '',
   });
 
-  signUpForm = form(this.signUpFormModel, (schemaPath) => {
+  readonly signUpForm = form(this.signUpFormModel, (schemaPath) => {
     required(schemaPath.name, { message: 'Name is required' });
     required(schemaPath.surname, { message: 'Surname is required' });
     required(schemaPath.email, { message: 'Email is required' });
@@ -117,12 +119,12 @@ export class SignUpComponent {
 
     this.authService
       .signUp(this.signUpForm().value())
-      .pipe(takeUntilDestroyed())
+      .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe(() => {
         // this.notificationsService.showSuccess(
         //   'Account created successfully! Please log in.',
         // );
-        this.router.navigate(['/login']);
+        this.router.navigate([`/${AUTH_BASE_PATH}/login`]);
       });
   }
 

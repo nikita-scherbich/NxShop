@@ -3,12 +3,12 @@
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "apps/api/src",
   "projectType": "application",
-  "tags": ["scope:api"],
   "release": {
     "docker": {
       "repositoryName": "nxshop/angular-template-api"
     }
   },
+  "tags": ["scope:api"],
   "targets": {
     "build": {
       "executor": "@nx/esbuild:esbuild",
@@ -47,7 +47,7 @@
       "continuous": true,
       "executor": "@nx/js:node",
       "defaultConfiguration": "development",
-      "dependsOn": ["build"],
+      "dependsOn": ["build", "libs/shared"],
       "options": {
         "buildTarget": "api:build",
         "runBuildTargetDependencies": false
