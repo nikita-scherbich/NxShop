@@ -17,9 +17,14 @@
           {
             "glob": "**/*",
             "input": "apps/shop/public"
+          },
+          {
+            "glob": "**/*",
+            "input": "apps/shop/src/assets",
+            "output": "assets"
           }
         ],
-        "styles": ["apps/shop/src/styles.css"],
+        "styles": ["apps/shop/src/styles.scss"],
         "server": "apps/shop/src/main.server.ts",
         "ssr": {
           "entry": "apps/shop/src/server.ts"
@@ -51,9 +56,9 @@
       "defaultConfiguration": "production"
     },
     "serve": {
-      "dependsOn": ["shared/components"],
       "continuous": true,
       "executor": "@angular/build:dev-server",
+      "dependsOn": ["api:serve"],
       "configurations": {
         "production": {
           "buildTarget": "shop:build:production"

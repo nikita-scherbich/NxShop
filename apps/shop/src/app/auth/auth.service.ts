@@ -1,85 +1,62 @@
-// import { Injectable, inject } from '@angular/core';
-// import { HttpClient } from '@angular/common/http';
-// import { Observable, tap } from 'rxjs';
-// import { jwtDecode } from 'jwt-decode'; // Import jwtDecode
+import { HttpClient } from '@angular/common/http';
+import { inject, Injectable } from '@angular/core';
+import { LoginFormData, LoginResponse, SignUpFormData } from '@nxshop/shared';
+import { CookieService } from 'ngx-cookie-service';
+import { catchError, Observable, tap } from 'rxjs';
+import { BASE_API_URL } from '../../environment';
 
-// interface LoginResponse {
-//   accessToken: string;
-//   refreshToken: string;
-//   user: User;
-// }
+@Injectable({ providedIn: 'root' })
+export class AuthService {
+  private http = inject(HttpClient);
+  private cookieService = inject(CookieService);
+  // private authStore = inject(AuthStore); // Will be implemented in a later phase
 
-// interface DecodedToken {
-//   sub: string; // Subject (user ID)
-//   roles: string[]; // User roles
-//   // other claims
-// }
+  signUp(registrationDetails: SignUpFormData): Observable<void> {
+    return this.http.post<void>(
+      `${BASE_API_URL}/api/signup`,
+      registrationDetails,
+    );
+  }
 
-// @Injectable({ providedIn: 'root' })
-// export class AuthService {
-//   private http = inject(HttpClient);
-//   private authStore = inject(AuthStore);
+  login(credentials: LoginFormData): Observable<LoginResponse> {
+    return this.http
+      .post<LoginResponse>(`${BASE_API_URL}/api/login`, credentials)
+      .pipe(
+        tap((response) => {
+          // Store JWT token in a secure cookie
+          // For 'rememberMe', the cookie expiration can be set longer.
+          // For mock, we'll set a default expiration.
+          const expirationDate = credentials.rememberMe
+            ? response.expireAt
+            : undefined;
 
-//   // Placeholder for backend API URL
-//   private readonly AUTH_API_URL = '/api/auth';
+          this.cookieService.set(
+            'jwt_token',
+            response.accessToken,
+            expirationDate,
+            '/',
+            undefined,
+            true,
+            'Lax',
+          );
 
-//   private extractUserFromToken(token: string): User {
-//     try {
-//       const decoded: DecodedToken = jwtDecode(token);
-//       // Assuming 'sub' is the user ID and 'roles' is an array of strings
-//       return {
-//         id: decoded.sub,
-//         email: decoded.sub, // Assuming email is in sub, or another claim
-//         roles: decoded.roles || [],
-//       };
-//     } catch (e) {
-//       console.error('Failed to decode JWT or extract user info:', e);
-//       return null as any; // Return null or throw error
-//     }
-//   }
+          // For now, no user object is stored in authStore.
+          // this.authStore.setAccessToken(response.token);
+          // this.authStore.setUser(this.extractUserFromToken(response.token));
+        }),
+        catchError((error) => {
+          throw new Error(error.error?.message || 'Login failed');
+        }),
+      );
+  }
 
-//   login(credentials: { email: string; password: string }): Observable<LoginResponse> {
-//     this.authStore.setLoading(true);
-//     return this.http.post<LoginResponse>(`${this.AUTH_API_URL}/login`, credentials).pipe(
-//       tap(response => {
-//         const user = this.extractUserFromToken(response.accessToken);
-//         this.authStore.setAccessToken(response.accessToken);
-//         // The refresh token is assumed to be handled securely by the backend (e.g., via HttpOnly cookie).
-//         // The frontend only manages the access token in the AuthStore.
-//         this.authStore.setUser(user);
-//         this.authStore.setLoading(false);
-//       })
-//     );
-//   }
+  // Placeholder for logout method
+  // logout(): void {
+  //   this.authStore.clearAuth();
+  // }
 
-//   signUp(registrationDetails: RegistrationDetails): Observable<LoginResponse> {
-//     this.authStore.setLoading(true);
-//     return this.http.post<LoginResponse>(`${this.AUTH_API_URL}/signup`, registrationDetails).pipe(
-//       tap(response => {
-//         const user = this.extractUserFromToken(response.accessToken);
-//         this.authStore.setAccessToken(response.accessToken);
-//         this.authStore.setUser(user);
-//         this.authStore.setLoading(false);
-//       })
-//     );
-//   }
-
-//   logout(): void {
-//     // Invalidate refresh token on backend if applicable
-//     // this.http.post(`${this.AUTH_API_URL}/logout`, {}).subscribe();
-//     this.authStore.clearAuth();
-//   }
-
-//   // Placeholder for Google Login
-//   googleLogin(idToken: string): Observable<LoginResponse> {
-//     this.authStore.setLoading(true);
-//     return this.http.post<LoginResponse>(`${this.AUTH_API_URL}/google-login`, { idToken }).pipe(
-//       tap(response => {
-//         const user = this.extractUserFromToken(response.accessToken);
-//         this.authStore.setAccessToken(response.accessToken);
-//         this.authStore.setUser(user);
-//         this.authStore.setLoading(false);
-//       })
-//     );
-//   }
-// }
+  // Placeholder for Google Login
+  // googleLogin(idToken: string): Observable<any> {
+  //   return this.http.post<any>(`${this.AUTH_API_URL}/google-login`, { idToken });
+  // }
+}

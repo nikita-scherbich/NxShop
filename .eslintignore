@@ -1,0 +1,9 @@
+node_modules/
+dist/
+build/
+coverage/
+*.min.js
+tmp/
+.nx/cache
+.nx/workspace-data
+.angular/

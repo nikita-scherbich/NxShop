@@ -15,11 +15,9 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "#app/shop/*": ["apps/shop/src/*"],
-      "@app/api/products": ["libs/api/products/src/index.ts"],
-      "@app/shared/models": ["libs/shared/models/src/index.ts"],
-      "@app/shared/components": ["libs/shared/components/src/index.ts"],
-      "@org/components": ["libs/shared/components/src/index.ts"]
+      "#nxshop/shop/*": ["apps/shop/src/*"],
+      "@nxshop/api/products": ["libs/api/products/src/index.ts"],
+      "@nxshop/shared": ["libs/shared/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]
