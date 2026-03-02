@@ -1,11 +1,19 @@
-<header>
-  <app-header></app-header>
-</header>
+<p-splitter
+  [minSizes]="[sidebarMinSize(), contentMinSize()]"
+  [panelSizes]="panelSizes()"
+  (onResizeEnd)="onSidebarResize($event)"
+  class="splitter"
+>
+  <ng-template #panel>
+    <app-sidebar class="sidebar"></app-sidebar>
+  </ng-template>
+  <ng-template #panel>
+    <main class="main">
+      <app-header class="header"></app-header>
 
-<aside>
-  <app-sidebar></app-sidebar>
-</aside>
-
-<main>
-  <router-outlet></router-outlet>
-</main>
+      <section class="body">
+        <router-outlet></router-outlet>
+      </section>
+    </main>
+  </ng-template>
+</p-splitter>

@@ -1,7 +1,11 @@
-<nav>
-  <ul class="nav-list">
-    <li class="nav-item"><a [routerLink]="['/home']" routerLinkActive="active">Home</a></li>
-    <li class="nav-item"><a [routerLink]="['/catalog']" routerLinkActive="active">Catalog</a></li>
-    <li class="nav-item"><a [routerLink]="['/vendor']" routerLinkActive="active">Vendor</a></li>
-  </ul>
+<section class="logo">
+  <p-avatar
+    image="../../../assets/CozyKnots.png"
+    size="xlarge"
+    class="logo-img"
+  />
+</section>
+
+<nav class="pages">
+  <p-button icon="pi pi-home" severity="secondary" class="pages-button" />
 </nav>

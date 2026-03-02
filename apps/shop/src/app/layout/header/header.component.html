@@ -1,7 +1,22 @@
-<button class="hamburger" (click)="toggleSidebar()">
-  &#9776; <!-- Hamburger icon -->
-</button>
-<h1 class="app-title">Shop Sample</h1>
-<div class="header-actions">
-  <button class="btn btn-secondary" (click)="logout()">Logout</button>
-</div>
+<!-- <section class="header-section"></section> -->
+<section class="header-section">
+  <p-iconfield iconPosition="left">
+    <p-inputicon class="pi pi-search" />
+    <input type="text" pInputText placeholder="Search" />
+  </p-iconfield>
+</section>
+<section class="header-section">
+  <p-button
+    icon="pi pi-bell"
+    severity="secondary"
+    [text]="true"
+    class="header-section-button"
+  />
+  <p-avatar [label]="'NS'" size="large" shape="circle" />
+  <p-button
+    icon="pi pi-sign-out"
+    severity="secondary"
+    class="header-section-button"
+    (onClick)="logout()"
+  />
+</section>

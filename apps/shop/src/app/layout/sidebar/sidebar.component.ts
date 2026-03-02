@@ -1,16 +1,14 @@
-import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
-// import { ShellStateService } from '../shell/shell-state.service'; // Adjust path as needed
+import { AvatarModule } from 'primeng/avatar';
+import { ButtonModule } from 'primeng/button';
 
 @Component({
   selector: 'app-sidebar',
   standalone: true,
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule, ButtonModule, AvatarModule],
   templateUrl: './sidebar.component.html',
   styleUrl: './sidebar.component.scss',
-  // host: { '[class.open]': 'shellState.isSidebarOpen()' } // Add host binding for mobile view
 })
-export class SidebarComponent {
-  // constructor(public shellState: ShellStateService) {}
-}
+export class SidebarComponent {}

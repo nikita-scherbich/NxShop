@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 import { LoginFormData, LoginResponse, SignUpFormData } from '@nxshop/shared';
 import { CookieService } from 'ngx-cookie-service';
 import { catchError, Observable, tap } from 'rxjs';
@@ -8,6 +9,7 @@ import { catchError, Observable, tap } from 'rxjs';
 export class AuthService {
   private http = inject(HttpClient);
   private cookieService = inject(CookieService);
+  private router = inject(Router);
 
   signUp(registrationDetails: SignUpFormData): Observable<void> {
     return this.http.post<void>('/api/signup', registrationDetails);
@@ -34,7 +36,6 @@ export class AuthService {
         );
 
         // For now, no user object is stored in authStore.
-        // this.authStore.setAccessToken(response.token);
         // this.authStore.setUser(this.extractUserFromToken(response.token));
       }),
       catchError((error) => {
@@ -43,15 +44,15 @@ export class AuthService {
     );
   }
 
-  // Placeholder for logout method
-  // logout(): void {
-  //   this.authStore.clearAuth();
-  // }
-
   // Placeholder for Google Login
   // googleLogin(idToken: string): Observable<any> {
   //   return this.http.post<any>(`${this.AUTH_API_URL}/google-login`, { idToken });
   // }
+
+  logout(): void {
+    this.cookieService.delete('jwt_token', '/', 'localhost');
+    this.router.navigate(['/auth-shell/login']);
+  }
 
   isAuthenticated(): boolean {
     const token = this.cookieService.get('jwt_token');
